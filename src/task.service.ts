@@ -1,4 +1,8 @@
-import type { Task, TaskStatus } from "./task.types";
+import type {
+  OpenTaskCallback,
+  Task,
+  TaskStatus,
+} from "./task.types";
 
 export function printTasks(tasks: Task[]): void {
   for (const task of tasks) {
@@ -33,4 +37,17 @@ export function calculateTotalEstimatedHours(tasks: Task[]): number {
 
 export function findTaskById(tasks: Task[], taskId: string): Task | null {
   return tasks.find((task) => task.id === taskId) ?? null;
+}
+
+export function createOpenTaskCallback(tasks: Task[]): OpenTaskCallback {
+  return (taskId: string): void => {
+    const task = findTaskById(tasks, taskId);
+
+    if (task === null) {
+      console.log(`Task not found: ${taskId}`);
+      return;
+    }
+
+    console.log(`Opening task: [${task.id}] ${task.title}`);
+  };
 }
