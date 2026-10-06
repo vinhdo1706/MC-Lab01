@@ -45,3 +45,13 @@ export const tasks: Task[] = [
     assignee: "Vinh",
   },
 ];
+
+export const rawTaskData: unknown = {
+  id: "T006",
+  title: "Validate raw task data",
+  estimatedHours: 1,
+  priority: "high",
+  status: "todo",
+  assignee: null,
+  note: "Validate this object with isTask before using it",
+};

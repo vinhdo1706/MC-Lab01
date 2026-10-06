@@ -1,6 +1,7 @@
 import type {
   OpenTaskCallback,
   Task,
+  TaskPriority,
   TaskStatus,
 } from "./task.types";
 
@@ -50,4 +51,25 @@ export function createOpenTaskCallback(tasks: Task[]): OpenTaskCallback {
 
     console.log(`Opening task: [${task.id}] ${task.title}`);
   };
+}
+
+export function isTask(value: unknown): value is Task {
+  if (typeof value !== "object" || value === null) {
+    return false;
+  }
+
+  const task = value as Record<string, unknown>;
+
+  const validPriorities: TaskPriority[] = ["low", "medium", "high"];
+  const validStatuses: TaskStatus[] = ["todo", "doing", "done"];
+
+  return (
+    typeof task.id === "string" &&
+    typeof task.title === "string" &&
+    typeof task.estimatedHours === "number" &&
+    validPriorities.includes(task.priority as TaskPriority) &&
+    validStatuses.includes(task.status as TaskStatus) &&
+    (typeof task.assignee === "string" || task.assignee === null) &&
+    (task.note === undefined || typeof task.note === "string")
+  );
 }
